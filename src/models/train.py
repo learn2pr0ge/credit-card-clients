@@ -9,6 +9,7 @@ import pandas as pd
 import sys
 import os, shutil
 from pathlib import Path
+import json
 
 os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 
@@ -188,6 +189,31 @@ def copy_pkl(model):
         print(e)
         sys.exit(1)
 
+def save_metrics(best_model_name, metrics_dict, hyperparams=None):
+    try:
+        metrics_file = Path(f"{path}metrics") / "metrics.json"
+        metrics_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        metrics_data = {
+            "model_name": best_model_name,
+            "train_test_split": {
+                "test_size": 0.2,
+                "random_state": 42
+            },
+            "metrics": metrics_dict,
+            "best_roc_auc": result_dict[best_model_name]
+        }
+        
+        if hyperparams:
+            metrics_data["hyperparameters"] = hyperparams
+        
+        with open(metrics_file, 'w') as f:
+            json.dump(metrics_data, f, indent=2)
+        
+        print(f"✅ Метрики успешно сохранены в {metrics_file}")
+    except Exception as e:
+        print(f"⚠️ Ошибка при сохранении метрик: {e}")
+
 def main():
     df = load_data()
     X_train, X_test, y_train, y_test = split_data(df)
@@ -201,6 +227,16 @@ def main():
     print(f'Копирование файла модели {best_result[0]}')
     copy_pkl(best_result[0])
     print(f'Копирование файла модели успешно завершено')
+    
+    # Сохранить метрики для DVC
+    metrics_dict = {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "roc_auc": result_dict[best_result[0]]
+    }
+    save_metrics(best_result[0], metrics_dict)
 
 if __name__ == '__main__':
     main()
