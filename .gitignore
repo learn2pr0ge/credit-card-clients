@@ -1,6 +1,7 @@
 csm_venv
 # Data
-/data/
+/data/raw/UCI_Credit_Card.csv
+
 
 # Mac OS-specific storage files
 .DS_Store
