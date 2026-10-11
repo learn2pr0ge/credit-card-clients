@@ -210,9 +210,9 @@ def save_metrics(best_model_name, metrics_dict, hyperparams=None):
         with open(metrics_file, 'w') as f:
             json.dump(metrics_data, f, indent=2)
         
-        print(f"✅ Метрики успешно сохранены в {metrics_file}")
+        print(f" Метрики успешно сохранены в {metrics_file}")
     except Exception as e:
-        print(f"⚠️ Ошибка при сохранении метрик: {e}")
+        print(f" Ошибка при сохранении метрик: {e}")
 
 def main():
     df = load_data()
@@ -228,12 +228,9 @@ def main():
     copy_pkl(best_result[0])
     print(f'Копирование файла модели успешно завершено')
     
-    # Сохранить метрики для DVC
+    # Сохранить метрики лучшей модели для DVC
     metrics_dict = {
-        "accuracy": 0.0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1_score": 0.0,
+
         "roc_auc": result_dict[best_result[0]]
     }
     save_metrics(best_result[0], metrics_dict)

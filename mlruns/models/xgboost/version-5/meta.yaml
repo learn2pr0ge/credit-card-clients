@@ -1,0 +1,16 @@
+creation_timestamp: 1791713893380
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1791713893380
+model_id: m-25cd362540834e658fe6f3983a7421bf
+name: xgboost
+run_id: 828b5742f66d43e48f7a42e8ae2d33cd
+run_link: null
+source: models:/m-25cd362540834e658fe6f3983a7421bf
+status: READY
+status_message: null
+storage_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/470162310030901740/models/m-25cd362540834e658fe6f3983a7421bf/artifacts
+user_id: null
+version: 5
+workspace: default

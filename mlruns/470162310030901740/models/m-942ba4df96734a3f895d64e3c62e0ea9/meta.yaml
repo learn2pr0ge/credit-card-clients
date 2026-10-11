@@ -1,0 +1,10 @@
+artifact_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/470162310030901740/models/m-942ba4df96734a3f895d64e3c62e0ea9/artifacts
+creation_timestamp: 1791713872406
+experiment_id: '470162310030901740'
+last_updated_timestamp: 1791713874679
+model_id: m-942ba4df96734a3f895d64e3c62e0ea9
+model_type: null
+name: model
+source_run_id: cd8bc533d8c9448faec1b66022060984
+status: 2
+status_message: null

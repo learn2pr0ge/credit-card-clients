@@ -2,6 +2,9 @@ csm_venv
 # Data
 /data/raw/UCI_Credit_Card.csv
 AGENTS.md
+COMPLETION_STATUS.md
+DVC_COMPLETION_REPORT.md
+dvc_setup.txt
 
 # DVC - Processed data and models (tracked by DVC, not git)
 /data/processed/

@@ -1,0 +1,11 @@
+{
+  "model_name": "gradient_boosting",
+  "train_test_split": {
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "metrics": {
+    "roc_auc": 0.7814
+  },
+  "best_roc_auc": 0.7814
+}

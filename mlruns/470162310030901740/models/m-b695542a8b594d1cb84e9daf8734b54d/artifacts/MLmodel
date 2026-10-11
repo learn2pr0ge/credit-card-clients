@@ -1,0 +1,23 @@
+artifact_path: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/470162310030901740/models/m-b695542a8b594d1cb84e9daf8734b54d/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: pickle
+    sklearn_version: 1.9.1
+    skops_trusted_types: null
+mlflow_version: 3.17.0
+model_id: m-b695542a8b594d1cb84e9daf8734b54d
+model_size_bytes: 6690
+model_uuid: m-b695542a8b594d1cb84e9daf8734b54d
+prompts: null
+run_id: b3d62a757de14349ad2c2f5f7b207b6c
+utc_time_created: '2026-10-11 09:59:23.223211'
