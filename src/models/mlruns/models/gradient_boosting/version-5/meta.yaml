@@ -1,0 +1,16 @@
+creation_timestamp: 1791708991706
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1791708991706
+model_id: m-5be11b9a3f5947de9ce465bdd6d416da
+name: gradient_boosting
+run_id: 4f647d22765a4b8180e643a0ddde4d64
+run_link: null
+source: models:/m-5be11b9a3f5947de9ce465bdd6d416da
+status: READY
+status_message: null
+storage_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/src/models/mlruns/433884985406727496/models/m-5be11b9a3f5947de9ce465bdd6d416da/artifacts
+user_id: null
+version: 5
+workspace: default

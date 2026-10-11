@@ -1,0 +1,19 @@
+stages:
+  prepare:
+    cmd: python src/run_pipeline.py
+    deps:
+      - src/run_pipeline.py
+      - data/raw/UCI_Credit_Card.csv
+    outs:
+      - data/processed/credit-scoring-model-ready_for_model.csv
+  train:
+    cmd: python src/models/train.py
+    deps:
+      - src/models/train.py
+      - data/processed/credit-scoring-model-ready_for_model.csv
+    outs:
+      - models/model.pkl
+    metrics:
+      - metrics/metrics.json:
+           cache: false
+

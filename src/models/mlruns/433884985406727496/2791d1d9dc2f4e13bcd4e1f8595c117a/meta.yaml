@@ -1,0 +1,14 @@
+artifact_uri: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/src/models/mlruns/433884985406727496/2791d1d9dc2f4e13bcd4e1f8595c117a/artifacts
+end_time: 1791707563340
+entry_point_name: ''
+experiment_id: '433884985406727496'
+lifecycle_stage: active
+run_id: 2791d1d9dc2f4e13bcd4e1f8595c117a
+run_name: credit-scoring-model
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1791707557435
+status: 4
+tags: []
+user_id: a1nix

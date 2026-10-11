@@ -1,0 +1,9 @@
+artifact_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/src/models/mlruns/433884985406727496
+creation_time: 1791695986306
+effective_trace_archival_retention: null
+experiment_id: '433884985406727496'
+last_update_time: 1791695986306
+lifecycle_stage: active
+name: credit-scoring-model
+trace_location: null
+workspace: default
