@@ -1,8 +1,8 @@
 aliases: {}
-creation_timestamp: 1791712680340
+creation_timestamp: 1791795760821
 deployment_job_id: null
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1791794943279
+last_updated_timestamp: 1791795830353
 name: RandomForestClassifier
 workspace: default

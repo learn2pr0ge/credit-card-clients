@@ -1,8 +1,8 @@
 aliases: {}
-creation_timestamp: 1791712722896
+creation_timestamp: 1791795788789
 deployment_job_id: null
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1791794967926
+last_updated_timestamp: 1791795862395
 name: catboost
 workspace: default

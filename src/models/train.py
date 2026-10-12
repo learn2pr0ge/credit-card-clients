@@ -90,7 +90,10 @@ def mlfow_run_rand_forrest(X_train, X_test, y_train, y_test, model="random_fores
         "Client_1",
     ]
 
-    mlflow.set_tracking_uri("./mlruns")
+    # MLflow URI уже установлен в main(), но гарантируем на случай независимого запуска
+    project_root = Path(__file__).resolve().parent.parent.parent
+    mlflow_uri = str(project_root / "mlruns")
+    mlflow.set_tracking_uri(mlflow_uri)
     mlflow.set_experiment("credit-scoring-model")
     pipeline = create_pipeline(numeric_features, categorical_features)
     # Добавляем GridSearch для подбора гиперпараметров
@@ -215,7 +218,10 @@ def ml_run_uni(X_train, X_test, y_train, y_test, model):
         "Client_1",
     ]
 
-    mlflow.set_tracking_uri("./mlruns")
+    # MLflow URI уже установлен в main(), но гарантируем на случай независимого запуска
+    project_root = Path(__file__).resolve().parent.parent.parent
+    mlflow_uri = str(project_root / "mlruns")
+    mlflow.set_tracking_uri(mlflow_uri)
     mlflow.set_experiment("credit-scoring-model")
     pipeline = create_pipeline(numeric_features, categorical_features, model=model)
     with mlflow.start_run(run_name="credit-scoring-model"):
@@ -309,6 +315,13 @@ def save_metrics(best_model_name, metrics_dict, hyperparams=None):
 
 
 def main():
+    # Инициализация MLflow в начале всех операций
+    # Используем абсолютный путь к корню проекта для гарантированной работы везде
+    project_root = Path(__file__).resolve().parent.parent.parent
+    mlflow_uri = str(project_root / "mlruns")
+    mlflow.set_tracking_uri(mlflow_uri)
+    mlflow.set_experiment("credit-scoring-model")
+    
     df = load_data()
     X_train, X_test, y_train, y_test = split_data(df)
     mlfow_run_rand_forrest(X_train, X_test, y_train, y_test)
