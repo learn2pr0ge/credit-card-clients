@@ -127,11 +127,15 @@ jobs:
         mkdir -p data/raw
         curl -L -o data/raw/UCI_Credit_Card.csv \
           "${{ env.GITHUB_DATASET_URL }}"
-      continue-on-error: true
+
+    - name: Prepare data (make_dataset)
+      run: python src/data/make_dataset.py
+
+    - name: Build features (build_features)
+      run: python src/features/build_features.py
 
     - name: Data validation Great Expectations
-      run: |
-        python src/data/validation.py
+      run: python src/data/validation.py
 
   # Запуск полного pipeline обучения модели
   train_model:
