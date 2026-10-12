@@ -1,0 +1,16 @@
+creation_timestamp: 1791794948200
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1791794948200
+model_id: m-6df3cf86f76841f4a945dcb57d5c1133
+name: logistic_regression
+run_id: dd63a045498f47a19926073184bc1d5e
+run_link: null
+source: models:/m-6df3cf86f76841f4a945dcb57d5c1133
+status: READY
+status_message: null
+storage_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/470162310030901740/models/m-6df3cf86f76841f4a945dcb57d5c1133/artifacts
+user_id: null
+version: 7
+workspace: default

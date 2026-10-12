@@ -3,6 +3,6 @@ creation_timestamp: 1791712716922
 deployment_job_id: null
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1791794735939
+last_updated_timestamp: 1791794962473
 name: xgboost
 workspace: default
