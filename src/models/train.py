@@ -321,7 +321,7 @@ def main():
     mlflow_uri = str(project_root / "mlruns")
     mlflow.set_tracking_uri(mlflow_uri)
     mlflow.set_experiment("credit-scoring-model")
-    
+
     df = load_data()
     X_train, X_test, y_train, y_test = split_data(df)
     mlfow_run_rand_forrest(X_train, X_test, y_train, y_test)
