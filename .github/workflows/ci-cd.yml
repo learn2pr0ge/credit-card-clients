@@ -187,7 +187,15 @@ jobs:
           dvc pull || echo "DVC pull skipped - data already available from GitHub Releases"
         continue-on-error: true
 
+      - name: Setup MLflow environment
+        run: |
+          mkdir -p mlruns
+          mkdir -p plots
+          mkdir -p models
+
       - name: Run DVC pipeline
+        env:
+          MLFLOW_TRACKING_URI: ./mlruns
         run: |
           dvc repro --verbose
 
