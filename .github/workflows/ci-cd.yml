@@ -26,15 +26,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.2.2
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v5.3.0
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Cache pip dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v4.2.0
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -54,7 +54,7 @@ jobs:
       run: isort --check-only --diff .
 
     - name: Linting (flake8)
-      run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      run: flake8 . --count --show-source --statistics
 
   # Запуск тестов
   test:
@@ -62,15 +62,15 @@ jobs:
     timeout-minutes: 30
     needs: [code-quality, data-validation]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.2.2
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v5.3.0
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Cache pip dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v4.2.0
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -90,7 +90,7 @@ jobs:
         pytest tests -v --cov=src --cov-report=xml --cov-report=html
 
     - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4.0.1
       with:
         file: ./coverage.xml
         flags: unittests
@@ -102,15 +102,15 @@ jobs:
     timeout-minutes: 15
     needs: code-quality
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.2.2
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v5.3.0
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Cache pip dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@v4.2.0
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -139,15 +139,15 @@ jobs:
     timeout-minutes: 60
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Cache pip dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}

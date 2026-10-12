@@ -5,7 +5,7 @@ AGENTS.md
 COMPLETION_STATUS.md
 DVC_COMPLETION_REPORT.md
 dvc_setup.txt
-
+/catboost_info
 # DVC - Processed data and models (tracked by DVC, not git)
 /data/processed/
 /data/expectations/credit-scoring-model-featured.csv
