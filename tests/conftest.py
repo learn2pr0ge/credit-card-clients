@@ -102,6 +102,36 @@ def sample_featured_data():
 
 
 @pytest.fixture
+def valid_client():
+    ## Фикстура с валидным телом клиента для api
+    return {
+        "LIMIT_BAL": 200000.0,
+        "SEX": 2,
+        "EDUCATION": 2,
+        "MARRIAGE": 1,
+        "AGE": 35,
+        "PAY_0": 0,
+        "PAY_2": 0,
+        "PAY_3": 0,
+        "PAY_4": 0,
+        "PAY_5": 0,
+        "PAY_6": 0,
+        "BILL_AMT1": 15000.0,
+        "BILL_AMT2": 12000.0,
+        "BILL_AMT3": 10000.0,
+        "BILL_AMT4": 8000.0,
+        "BILL_AMT5": 6000.0,
+        "BILL_AMT6": 4000.0,
+        "PAY_AMT1": 2000.0,
+        "PAY_AMT2": 1500.0,
+        "PAY_AMT3": 1000.0,
+        "PAY_AMT4": 800.0,
+        "PAY_AMT5": 600.0,
+        "PAY_AMT6": 500.0,
+    }
+
+
+@pytest.fixture
 def numeric_features():
     ## Список числовых признаков из модели
     return [
