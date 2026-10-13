@@ -3,20 +3,12 @@ import os
 from pathlib import Path
 import shutil
 import sys
-
 import matplotlib.pyplot as plt
 import mlflow
 import mlflow.sklearn
 import pandas as pd
 from pipeline import create_pipeline
-from sklearn.metrics import (
-    accuracy_score,
-    f1_score,
-    precision_score,
-    recall_score,
-    roc_auc_score,
-    roc_curve,
-)
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score, roc_curve
 from sklearn.model_selection import GridSearchCV, train_test_split
 
 os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
@@ -24,8 +16,6 @@ os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 path = Path(__file__).resolve().parent
 path = str(path)
 path = path[:-10]
-print(path)
-
 
 def load_data() -> pd.DataFrame:
     try:
@@ -158,7 +148,6 @@ def mlfow_run_rand_forrest(X_train, X_test, y_train, y_test, model="random_fores
         plt.grid(True)
 
         plot_path = "roc_curve.png"
-        plt.savefig(plot_path)
         plt.close()
 
         # Логирование модели
@@ -218,7 +207,6 @@ def ml_run_uni(X_train, X_test, y_train, y_test, model):
         "Client_1",
     ]
 
-    # MLflow URI уже установлен в main(), но гарантируем на случай независимого запуска
     project_root = Path(__file__).resolve().parent.parent.parent
     mlflow_uri = str(project_root / "mlruns")
     mlflow.set_tracking_uri(mlflow_uri)
@@ -268,7 +256,6 @@ def ml_run_uni(X_train, X_test, y_train, y_test, model):
         plt.grid(True)
 
         plot_path = f"roc_curve.png"
-        plt.savefig(plot_path)
         plt.close()
 
         # Логирование модели
