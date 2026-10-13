@@ -148,6 +148,7 @@ def mlfow_run_rand_forrest(X_train, X_test, y_train, y_test, model="random_fores
         plt.grid(True)
 
         plot_path = "roc_curve.png"
+        plt.savefig(plot_path)
         plt.close()
 
         # Логирование модели
@@ -256,6 +257,7 @@ def ml_run_uni(X_train, X_test, y_train, y_test, model):
         plt.grid(True)
 
         plot_path = f"roc_curve.png"
+        plt.savefig(plot_path)
         plt.close()
 
         # Логирование модели

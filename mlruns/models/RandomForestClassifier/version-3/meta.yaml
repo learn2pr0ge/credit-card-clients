@@ -1,0 +1,16 @@
+creation_timestamp: 1791870086866
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1791870086866
+model_id: m-307e6b6519c74493910f47eb97282423
+name: RandomForestClassifier
+run_id: f9d2191f5d6545c7927fba870a05b087
+run_link: null
+source: models:/m-307e6b6519c74493910f47eb97282423
+status: READY
+status_message: null
+storage_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/823843591070236720/models/m-307e6b6519c74493910f47eb97282423/artifacts
+user_id: null
+version: 3
+workspace: default

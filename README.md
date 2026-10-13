@@ -59,3 +59,13 @@
 
 --------
 
+## Запуск проекта
+
+** Для Linux **
+
+```aiignore
+git clone https://github.com/learn2pr0ge/credit-card-clients/
+chmod +x start.sh
+./start.sh
+```
+
