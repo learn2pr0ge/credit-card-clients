@@ -3,12 +3,20 @@ import os
 from pathlib import Path
 import shutil
 import sys
+
 import matplotlib.pyplot as plt
 import mlflow
 import mlflow.sklearn
 import pandas as pd
 from pipeline import create_pipeline
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score, roc_curve
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+    roc_curve,
+)
 from sklearn.model_selection import GridSearchCV, train_test_split
 
 os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
@@ -16,6 +24,7 @@ os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 path = Path(__file__).resolve().parent
 path = str(path)
 path = path[:-10]
+
 
 def load_data() -> pd.DataFrame:
     try:

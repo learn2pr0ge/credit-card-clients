@@ -1,8 +1,8 @@
 import asyncio
 
 import pandas as pd
-import pytest
 from pydantic import ValidationError
+import pytest
 
 from api.api_model import Client, Prediction, healthcheck, predict, prepare_features
 

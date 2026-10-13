@@ -1,12 +1,11 @@
 import logging
-import pickle
-import sys
 from pathlib import Path
-import pandas as pd
+import pickle
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+import pandas as pd
 from pydantic import BaseModel, Field
-
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +19,10 @@ print(path)
 
 # Загрузка модели
 try:
-    with open(f'{path}/models/model.pkl', "rb") as f:
+    with open(f"{path}/models/model.pkl", "rb") as f:
         model = pickle.load(f)
 except FileNotFoundError as exc:
-    raise RuntimeError(f"Нет файла модели") from exc
+    raise RuntimeError("Нет файла модели") from exc
 
 
 class Client(BaseModel):
@@ -55,6 +54,7 @@ class Client(BaseModel):
 class Prediction(BaseModel):
     default: int
     probability: float
+
 
 def make_features(df: pd.DataFrame) -> pd.DataFrame:
     # Делаем новые feature по SEX и Marriage
@@ -137,6 +137,7 @@ def make_features(df: pd.DataFrame) -> pd.DataFrame:
     # Feature близости платежа
 
     return df
+
 
 def prepare_features(client: Client) -> pd.DataFrame:
     X = pd.DataFrame([client.model_dump()])
