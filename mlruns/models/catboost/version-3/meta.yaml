@@ -1,0 +1,16 @@
+creation_timestamp: 1791962953817
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1791962953817
+model_id: m-df4ab1080a8e43da8ec04360c2e80105
+name: catboost
+run_id: c8e3310dd6d44f87b42f4e33ff75171d
+run_link: null
+source: models:/m-df4ab1080a8e43da8ec04360c2e80105
+status: READY
+status_message: null
+storage_location: /home/a1nix/Desktop/miphi_ml/python/mlops/first_exam/credit-scoring-model/mlruns/808698139311493168/models/m-df4ab1080a8e43da8ec04360c2e80105/artifacts
+user_id: null
+version: 3
+workspace: default

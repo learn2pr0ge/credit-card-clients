@@ -7,7 +7,6 @@ roc_curve.png
 # DVC - Processed data and models (tracked by DVC, not git)
 /data/processed/
 /data/expectations/credit-scoring-model-featured.csv
-/models/model.pkl
 # Mac OS-specific storage files
 .DS_Store
 
