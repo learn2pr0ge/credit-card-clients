@@ -23,5 +23,10 @@ wget https://github.com/learn2pr0ge/credit-card-clients/releases/download/v1.0-d
 cp UCI_Credit_Card.csv data/raw
 rm UCI_Credit_Card.csv
 
+echo "Идет скачивание файла модели"
+wget https://github.com/learn2pr0ge/credit-card-clients/releases/download/v-1.0-model/model.pkl
+cp model.pkl models/
+rm model.pkl
+
 docker build -t credit-scoring .
 docker run --rm -p 80:8000 credit-scoring
