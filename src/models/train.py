@@ -39,6 +39,9 @@ def split_data(df: pd.DataFrame):
     X = df.drop(columns=["target"])
     y = df["target"]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Сохраняем X_train, X_test для проверки дрифта данных
+    X_train.to_csv(f"{path}data/processed/X_train.csv", index=False)
+    X_test.to_csv(f"{path}data/processed/X_test.csv", index=False)
     return X_train, X_test, y_train, y_test
 
 

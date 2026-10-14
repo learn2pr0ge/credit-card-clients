@@ -1,11 +1,23 @@
 import logging
 from pathlib import Path
 import pickle
+import sys
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 import pandas as pd
 from pydantic import BaseModel, Field
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from detect_drift import detect_drift_chisquare, detect_drift_ks
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    handlers=[logging.StreamHandler(sys.stdout)],
+    force=True,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +26,6 @@ app = FastAPI()
 path = Path(__file__).resolve().parent
 path = str(path)
 path = path[:-7]
-print(path)
 
 
 # Загрузка модели
@@ -143,8 +154,70 @@ def prepare_features(client: Client) -> pd.DataFrame:
     X = pd.DataFrame([client.model_dump()])
     # Модель и фичеринг работают с PAY_1
     X = X.rename(columns={"PAY_0": "PAY_1"})
+    save_client(X)
     X = make_features(X)
     return X
+
+
+# Сохраняем всех клиентов в DataFrame
+
+clients_df = pd.DataFrame()
+
+
+def save_client(df: pd.DataFrame):
+    global clients_df
+    clients_df = pd.concat([clients_df, df], axis=0, ignore_index=True)
+    return clients_df
+
+
+def check_drift(df: pd.DataFrame):
+    if len(df) < 10:
+        return None
+    # Загрузка данных
+    try:
+        df_orig = pd.read_csv(f"{path}/data/processed/X_train.csv")
+    except FileNotFoundError:
+        logger.exception("Файл с датасетом не найден")
+        return 1
+    drift_report = []
+
+    for column in [
+        "LIMIT_BAL",
+        "AGE",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6",
+    ]:
+        is_drift, p_val = detect_drift_ks(df_orig[column], df[column])
+        if is_drift:
+            drift_report.append(f"Дрифт обнаружили в {column}. P-value: {p_val:.4f}")
+
+    for column in [
+        "SEX",
+        "EDUCATION",
+        "MARRIAGE",
+        "PAY_1",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+    ]:
+        is_drift, p_val = detect_drift_chisquare(df_orig[column], df[column])
+        if is_drift:
+            drift_report.append(f"Дрифт обнаружили в {column}. P-value: {p_val:.4f}")
+    if len(drift_report) > 0:
+        logger.warning(f"Обнаружен дрифт данных {drift_report}")
+        return 1
 
 
 # Endpoint /predict
@@ -154,6 +227,10 @@ async def predict(client: Client):
         X = prepare_features(client)
         pred = int(model.predict(X)[0])
         prob = float(model.predict_proba(X)[0, 1])
+        try:
+            check_drift(clients_df)
+        except Exception:
+            logger.warning("Проверка дрифта пропущена")
     except Exception as exc:
         logger.exception("Ошибка при получении предсказания")
         raise HTTPException(status_code=500, detail=f"Ошибка предсказания: {exc}") from exc

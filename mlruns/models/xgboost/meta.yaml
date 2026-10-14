@@ -1,8 +1,8 @@
 aliases: {}
-creation_timestamp: 1791795783676
+creation_timestamp: 1791951347722
 deployment_job_id: null
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1791870107961
+last_updated_timestamp: 1791951347723
 name: xgboost
 workspace: default

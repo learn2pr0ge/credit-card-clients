@@ -1,8 +1,8 @@
 aliases: {}
-creation_timestamp: 1791795768200
+creation_timestamp: 1791951330867
 deployment_job_id: null
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1791870092462
+last_updated_timestamp: 1791951330870
 name: logistic_regression
 workspace: default

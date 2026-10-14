@@ -1,6 +1,5 @@
 from pathlib import Path
 import sys
-from tkinter import BooleanVar
 
 import great_expectations as gx
 import pandas as pd
@@ -101,7 +100,7 @@ def validate(df: pd.DataFrame):
 
 
 # Тест вывода ошибок. Возвращает True/False в зависимости от того проходят данные проверку или нет
-def validation_test(validation_list) -> BooleanVar:
+def validation_test(validation_list) -> bool:
     true_list = set([d["success"] for d in validation_list])
     if False in true_list:
         return False
