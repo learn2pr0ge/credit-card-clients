@@ -2,14 +2,13 @@ import logging
 from pathlib import Path
 import pickle
 import sys
-
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 import pandas as pd
 from pydantic import BaseModel, Field
+from detect_drift import detect_drift_chisquare, detect_drift_ks
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from detect_drift import detect_drift_chisquare, detect_drift_ks
 
 logging.basicConfig(
     level=logging.INFO,

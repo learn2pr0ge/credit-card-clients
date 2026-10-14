@@ -1,6 +1,6 @@
-import pandas as pd
-from scipy.stats import ks_2samp, chi2_contingency
 import numpy as np
+from scipy.stats import chi2_contingency, ks_2samp
+
 
 def detect_drift_ks(train_column, prod_column, threshold=0.05):
     """

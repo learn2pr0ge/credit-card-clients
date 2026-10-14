@@ -5,7 +5,12 @@ import sys
 root_path = Path(__file__).resolve().parent
 
 
-scripts = ["data/make_dataset.py", "features/build_features.py", "data/validation.py", "models/train.py"]
+scripts = [
+    "data/make_dataset.py",
+    "features/build_features.py",
+    "data/validation.py",
+    "models/train.py",
+]
 
 
 def run_script(script):
