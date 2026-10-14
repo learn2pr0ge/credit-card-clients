@@ -15,7 +15,7 @@ credit-scoring-model/
 ├── data/                      # Данные (версионируются DVC, в git не лежат)
 │   ├── raw/                   # Сырые данные + очищенный датасет
 │   ├── expectations/          # Датасет с фичами для проверки Great Expectations
-│   └── processed/             # Финальный датасет готовый для модели
+│   └── processed/             # Финальный датасет + X_train.csv/X_test.csv (для дрифта)
 ├── metrics/
 │   └── metrics.json           # Метрики лучшей модели для DVC
 ├── models/
@@ -23,17 +23,23 @@ credit-scoring-model/
 ├── notebooks/
 │   └── eda.ipynb              # Разведочный анализ данных (EDA)
 ├── src/                       # Весь исходный код
-│   ├── run_pipeline.py        # Прогоняет пайплайн подготовки данных
+│   ├── run_pipeline.py        # Прогоняет полный пайплайн (данные + обучение)
 │   ├── data/
 │   │   ├── make_dataset.py    # Загрузка и очистка данных
-│   │   └── validation.py      # Валидация данных через Great Expectations
+│   │   ├── validation.py      # Валидация данных через Great Expectations
+│   │   └── README.md
 │   ├── features/
-│   │   └── build_features.py  # Фичеринг (новые признаки)
+│   │   ├── build_features.py  # Фичеринг (новые признаки)
+│   │   └── README.md
 │   ├── models/
 │   │   ├── pipeline.py        # Sklearn pipeline (препроцессинг + модель)
-│   │   └── train.py           # Обучение моделей, MLflow, выбор лучшей
+│   │   ├── train.py           # Обучение моделей, MLflow, выбор лучшей
+│   │   └── README.md
 │   └── api/
-│       └── api_model.py       # FastAPI приложение с endpoint /predict
+│       ├── api_model.py       # FastAPI приложение с endpoint /predict
+│       ├── detect_drift.py    # Детекция дрифта данных (KS-тест, хи-квадрат)
+│       ├── check_api.py       # Нагрузочная отправка запросов на /predict
+│       └── README.md
 ├── tests/                     # Pytest тесты
 ├── Dockerfile                 # Образ с FastAPI приложением
 ├── Makefile                   # Удобные команды (data, train, serve, test, lint)
@@ -42,24 +48,65 @@ credit-scoring-model/
 ├── pyproject.toml             # Конфиг проекта + black/isort
 ├── setup.cfg                  # Конфиг flake8
 ├── start.sh                   # Скрипт полного запуска для Linux
+├── LICENSE                    # Лицензия MIT
 └── README.md
 ```
 
 ## Быстрый старт
 
-### Вариант A: start.sh (Linux, одной командой)
+### Запуск докер контейнера с API предсказания модели через start.sh (Linux, одной командой)
 
-Скрипт сам поставит wget и docker если их нет, скачает датасет, соберет и запустит контейнер.
+Скрипт сам поставит wget и docker если их нет, скачает датасет и готовую модель `model.pkl`
+с GitHub Releases (модель не обучается, а скачивается), соберет и запустит контейнер.
 
 ```bash
 git clone https://github.com/learn2pr0ge/credit-card-clients/
+cd credit-card-clients
 chmod +x start.sh
 ./start.sh
 ```
 
 После запуска API будет доступно на http://localhost (порт 80 проброшен на 8000 контейнера).
 
-### Вариант B: Локально через Makefile
+### Локальный train модели
+
+Создаем окружение
+
+```aiignore
+git clone https://github.com/learn2pr0ge/credit-card-clients/
+cd credit-card-clients
+python -m venv csm_venv
+source csm_venv/bin/activate
+```
+
+Устанавливаем зависимости
+
+```aiignore
+pip install -r requirements.txt
+```
+
+Запуск полного Pipeline
+
+```aiignore
+cd src
+python run_pipeline.py
+```
+
+Запуск Uvicorn для подъема API endpoint
+
+```aiignore
+uvicorn api_model:app --app-dir src/api --port 8000 --reload
+```
+
+Нагрузочная отправка запросов на /predict (детекция дрифта выполняется на стороне API)
+
+```aiignore
+cd src/api
+python check_api.py
+```
+
+
+### Локально через Makefile
 
 ```bash
 # Ставим зависимости
@@ -68,17 +115,18 @@ make requirements
 # Скачиваем датасет в data/raw
 make data
 
-# Подготовка данных (make_dataset -> build_features -> validation)
+# Полный пайплайн: make_dataset -> build_features -> validation -> train
+# (run_pipeline.py прогоняет подготовку данных и обучение моделей)
 make prepare
 
-# Обучение моделей
+# Обучение моделей отдельно (если данные уже подготовлены)
 make train
 
 # Запуск FastAPI локально
 make serve
 ```
 
-### Вариант C: Docker вручную
+### Docker вручную
 
 ```bash
 # Сборка образа
@@ -98,13 +146,16 @@ dvc repro
 
 ## Пайплайн обработки данных и обучения
 
-Подготовка данных собрана в `src/run_pipeline.py` и идет по шагам:
+Полный пайплайн собран в `src/run_pipeline.py` и идет по шагам:
 
 1. `src/data/make_dataset.py` — загрузка сырого датасета, очистка (дроп ID, фикс значений
    MARRIAGE и EDUCATION, переименование PAY_0 в PAY_1 и таргета, нормализация PAY_*).
 2. `src/features/build_features.py` — фичеринг: новые признаки SE_MA, AgeBin, SE_AG,
    Client_1..6, Avg_exp_1..5.
 3. `src/data/validation.py` — валидация через Great Expectations (диапазоны, типы, отсутствие null).
+4. `src/models/train.py` — обучение моделей, логирование в MLflow, выбор лучшей.
+
+Поэтому `make prepare` (и стадия `prepare` в DVC) запускает весь путь, включая обучение.
 
 Обучение в `src/models/train.py`: разбивка train/test (test_size=0.2), sklearn pipeline с
 препроцессингом, обучение 5 моделей, GridSearch для Random Forest, логирование в MLflow,
@@ -208,6 +259,20 @@ make test
 make test-cov
 ```
 
+## Мониторинг дрифта данных
+
+Детекция дрифта реализована в `src/api/detect_drift.py` и вызывается из API при предсказаниях:
+
+- `detect_drift_ks` — тест Колмогорова-Смирнова для непрерывных признаков (LIMIT_BAL, AGE,
+  BILL_AMT*, PAY_AMT*).
+- `detect_drift_chisquare` — тест хи-квадрат для категориальных признаков (SEX, EDUCATION,
+  MARRIAGE, PAY_*).
+
+При запросах на `/predict` входные данные накапливаются и сравниваются с обучающей выборкой
+(`data/processed/X_train.csv`). Если p-value ниже порога (0.05), в лог пишется предупреждение
+о дрифте. Скрипт `src/api/check_api.py` отправляет серию запросов на `/predict` для проверки
+работы API и триггера детекции дрифта.
+
 ## CI/CD (GitHub Actions)
 
 Пайплайн `.github/workflows/ci-cd.yml` запускается на push и pull request в main. Состоит из jobs:
@@ -228,7 +293,7 @@ make clean     # Чистка кэша и артефактов тестов
 
 ## Требования к окружению
 
-- Python 3.10+
+- Python 3.13 (Dockerfile и CI используют 3.13; минимально 3.10+)
 - Зависимости из `requirements.txt` (`make requirements` или `pip install -r requirements.txt`)
 - Docker (для запуска контейнера)
 
