@@ -92,10 +92,10 @@ cd src
 python run_pipeline.py
 ```
 
-Запуск Uvicorn для подъема API endpoint
+Запуск Uvicorn для подъема API endpoint. *Запускать только так чтобы не было ошибок загрузок модулей*  
 
 ```aiignore
-uvicorn api_model:app --app-dir src/api --port 8000 --reload
+python -m uvicorn src.api.api_model:app --port 8000 --reload
 ```
 
 Нагрузочная отправка запросов на /predict (детекция дрифта выполняется на стороне API)
