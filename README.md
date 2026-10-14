@@ -93,8 +93,9 @@ python run_pipeline.py
 ```
 
 Запуск Uvicorn для подъема API endpoint. *Запускать только так чтобы не было ошибок загрузок модулей*  
-
+**Запускать только из корня проекта**
 ```aiignore
+cd ..
 python -m uvicorn src.api.api_model:app --port 8000 --reload
 ```
 
